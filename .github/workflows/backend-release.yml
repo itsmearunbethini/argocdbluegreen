@@ -67,6 +67,7 @@ jobs:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
             type=raw,value=latest,enable={{is_default_branch}}
+            type=raw,value=0.0.${{ github.run_number }}
             type=ref,event=branch
           labels: |
             org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
@@ -93,9 +94,10 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           BRANCH_NAME: ${{ github.ref_name }}
           COMMIT_SHA: ${{ github.sha }}
+          VERSION: 0.0.${{ github.run_number }}
           IMAGE: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
         run: |
-          RELEASE_TAG="container-${BRANCH_NAME//\//-}-${COMMIT_SHA:0:7}"
+          RELEASE_TAG="v$VERSION"
 
           if gh release view "$RELEASE_TAG" >/dev/null 2>&1; then
             echo "GitHub Release $RELEASE_TAG already exists."
@@ -104,5 +106,5 @@ jobs:
 
           gh release create "$RELEASE_TAG" \
             --target "$COMMIT_SHA" \
-            --title "Container release $RELEASE_TAG" \
-            --notes "Published container image: \`$IMAGE\`"
+            --title "Backend $RELEASE_TAG" \
+            --notes "Published container image: \`$IMAGE:$VERSION\`\n\nSource branch: \`$BRANCH_NAME\`"
