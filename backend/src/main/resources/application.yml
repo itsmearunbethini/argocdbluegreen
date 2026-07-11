@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: github-dashboard-backend
+
+github:
+  organization: ${GITHUB_ORGANIZATION}
+  token: ${GITHUB_TOKEN}
+  api-base-url: ${GITHUB_API_BASE_URL:https://api.github.com}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      probes:
+        enabled: true
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
