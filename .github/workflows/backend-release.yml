@@ -89,6 +89,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
       - name: Create release for published image
         env:
           GH_TOKEN: ${{ github.token }}
