@@ -1,2 +1,2 @@
 # argocdbluegreen
-to test argocd blue green
+to test argocd blue green 
